@@ -14,7 +14,8 @@
 	}
 	function sumaTrasl(v1, v2){
 		var s = [];
-		for(var i=
+		for (i=0; i < v1.length; i++)
+   		 s[i] = v1[i] + v2[i % 2 == 0 ? 0 : 1];
 		return s;
 	}
 	//0,0 ,0,50 ,40,50 ,40,40 ,10,40 ,10,30, 20,30 ,20,20, 10,20 ,10,10 ,40,10 , 40,0]];
@@ -26,7 +27,7 @@
 	var letra_e_transform = sumaTrasl(letra_e, vt);
 
 	polygon(letra_e, 'magenta', 'magenta');
-        polygon(letra_e_transform, 'magenta', 'magenta');
+        polygon(letra_e_transform, 'green', 'green');
 
 	
 </script>
