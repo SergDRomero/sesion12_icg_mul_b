@@ -5,38 +5,54 @@
   		ctx.beginPath()
   		ctx.strokeStyle = colorBorde
   		ctx.fillStyle = colorRelleno
-  		ctx.moveTo(a[0],a[1])
-  		for (i=2; i < a.length; i+=2)
-   		 ctx.lineTo(a[i],a[i+1]);
+  		ctx.moveTo(a[0][0],a[1][0])
+  		for (i=1; i < a[0].length; i+=1)
+            ctx.lineTo(a[0][i],a[1][i]);
   		ctx.closePath()
   		ctx.stroke()
  		ctx.fill()
 	}
-	function rotacionPunto(cxOb, cyObj, rot){
-		var mr = [[Math.cos(r),-Math.sin(r)],[Math.sin(r),Math.cos(r)]];
+    function sumaTrasl(obj, tras){
+        var objTras = [[],[]]; //variable para guardar resultado final 
+        console.log(objTras)
+        for (var i=0; i < obj[0].length; i+=1){ //rotacion del vertice i/2
+            objTras[0][i] = obj[0][i] +tras[0];
+            objTras[1][i] = obj[1][i]+tras[1];
+        }
+        return objTras;
+	}
+	function rotacionPunto(x_, y_, rot){
+		var punto = [];
 
-		
+        	punto[0] = x_*Math.cos(rot)- y_*-Math.sin(rot);
+        	punto[1] = y_*Math.cos(rot)+ x_*-Math.sin(rot); 
+		return punto;
 	}
 
 	function rotacionObj(obj, r){
-		var s = []; //variable para guardar resultado final 
+		var objRotado = [[],[]]; //variable para guardar resultado final 
 
-		for (var i=0; i < obj.length; i+=2){ //rotacion del vertice i/2
-		 var pr = rotacionPunto(obj[i], obj[i+1], r);
-   		 s[i] = pr[i % 2 == 0 ? 0 : 1];
-		}
-		return s;
+		for (var i=0; i < obj[0].length; i+=1){ //rotacion del vertice i/2
+		    var punto = rotacionPunto(obj[0][i], obj[1][i], r);
+   		    objRotado[0][i] = punto[0];
+            	    objRotado[1][i] = punto[1];
+        	}
+		return objRotado;
 	}
 	
-	var c = document.getElementById('tablero')
-	var ctx = c.getContext('2d')
+	var c = document.getElementById('tablero');
+	var ctx = c.getContext('2d');
 
-	var letra_e = [0,0 ,0,50 ,40,50 ,40,40 ,10,40 ,10,30, 20,30 ,20,20, 10,20 ,10,10 ,40,10 , 40,0];
+	var letra_e =[[0,0,40,40,10,10,20,20,10,10,40,40],[0,50,50,40,40,30,30,20,20,10,10,0]];
+
+        polygon(letra_e, 'magenta', 'magenta');
 	var r = Math.PI/6; //angulo traslacion
 	var letra_e_rotada = rotacionObj(letra_e, r);
 
-	polygon(letra_e, 'magenta', 'magenta');
-        polygon(letra_e_rotada, 'green', 'green');
+        var vt = [50,50]; //vector traslacion
+        var letra_e_transform = sumaTrasl(letra_e_rotada, vt)
+
+        polygon(letra_e_transform, 'blue', 'blue');
 
 	
 </script>
